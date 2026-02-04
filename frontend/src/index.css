@@ -2092,12 +2092,16 @@ ol {
 }
 
 .mobile-sidebar-header .btn-icon {
-  font-size: 1.5rem;
-  width: 40px;
-  height: 40px;
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  color: var(--text-primary);
 }
 
 .mobile-user-info {
@@ -2219,13 +2223,13 @@ ol {
   }
 
   .cart-btn {
-    font-size: 1.75rem;
+    font-size: 2rem;
     width: 48px;
     height: 48px;
   }
 
   .mobile-menu-btn {
-    font-size: 1.75rem;
+    font-size: 2rem;
     width: 48px;
     height: 48px;
   }
