@@ -1825,8 +1825,16 @@ ol {
   }
 
   .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+
+  .footer-links:nth-child(4) {
+    grid-column: 1 / -1;
   }
 
   .form-row {
