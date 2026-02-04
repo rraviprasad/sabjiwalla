@@ -1848,6 +1848,10 @@ ol {
   .search-bar {
     max-width: none;
   }
+
+  .hero-image .floating-card {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
