@@ -162,7 +162,7 @@ const Home = () => {
             </section>
 
             {/* CTA Section */}
-            <section className="section" style={{
+            <section className="section cta-section" style={{
                 background: 'var(--primary-gradient)',
                 color: 'white',
                 textAlign: 'center'

@@ -1849,6 +1849,26 @@ ol {
     max-width: none;
   }
 
+  .cta-section {
+    padding: 32px 0 !important;
+  }
+
+  .cta-section h2 {
+    font-size: 1.75rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  .cta-section p {
+    font-size: 1rem !important;
+    margin-bottom: 24px !important;
+    padding: 0 16px;
+  }
+
+  .cta-section .btn {
+    padding: 12px 24px !important;
+    font-size: 1rem !important;
+  }
+
   /* Hero Mobile Styles - Restored & Optimized */
   .hero .container {
     grid-template-columns: 1fr;
@@ -1897,6 +1917,41 @@ ol {
     right: 0;
     left: auto;
     bottom: auto;
+  }
+
+  /* Feature cards - Perfect 2x2 Grid */
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .feature-card {
+    padding: 12px 8px !important;
+    text-align: center;
+    border-radius: var(--radius-md) !important;
+    background: white !important;
+    box-shadow: var(--shadow-sm) !important;
+    height: 100% !important;
+  }
+
+  .feature-icon {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 1.1rem !important;
+    margin: 0 auto 8px !important;
+  }
+
+  .feature-title {
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 2px !important;
+    color: var(--text-primary) !important;
+  }
+
+  .feature-description {
+    font-size: 0.65rem !important;
+    line-height: 1.2 !important;
+    color: var(--text-secondary) !important;
   }
 }
 
@@ -2053,6 +2108,19 @@ ol {
 
   .feature-description {
     font-size: 0.6rem !important;
+  }
+
+  .cta-section {
+    padding: 24px 0 !important;
+  }
+
+  .cta-section h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .cta-section p {
+    font-size: 0.875rem !important;
+    margin-bottom: 16px !important;
   }
 
   /* Buttons */
