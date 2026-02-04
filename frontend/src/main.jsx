@@ -15,7 +15,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 // Configure Axios Base URL
 // In production, VITE_API_URL should be set to your deployed backend URL.
 // In development, it falls back to '/api' which is proxied by Vite.
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || '/api'; 
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
 
 
 
