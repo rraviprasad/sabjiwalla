@@ -1883,6 +1883,10 @@ ol {
     left: 16px;
     z-index: 20;
     margin-bottom: 0;
+    background: white !important;
+    padding: 6px 12px;
+    box-shadow: var(--shadow-sm);
+    white-space: nowrap;
   }
 
   .hero-buttons {
