@@ -1874,6 +1874,15 @@ ol {
     grid-template-columns: 1fr;
     gap: 32px;
     text-align: center;
+    position: relative;
+  }
+
+  .hero-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 20;
+    margin-bottom: 0;
   }
 
   .hero-buttons {
@@ -1906,7 +1915,7 @@ ol {
   }
 
   .floating-card:nth-of-type(1) {
-    top: 5%;
+    top: 22%;
     left: 0;
     right: auto;
     bottom: auto;
