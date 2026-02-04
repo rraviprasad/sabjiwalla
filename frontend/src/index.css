@@ -2091,6 +2091,15 @@ ol {
   font-size: 1.25rem;
 }
 
+.mobile-sidebar-header .btn-icon {
+  font-size: 1.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .mobile-user-info {
   display: flex;
   align-items: center;
@@ -2210,15 +2219,15 @@ ol {
   }
 
   .cart-btn {
-    font-size: 1.5rem;
-    width: 44px;
-    height: 44px;
+    font-size: 1.75rem;
+    width: 48px;
+    height: 48px;
   }
 
   .mobile-menu-btn {
-    font-size: 1.5rem;
-    width: 44px;
-    height: 44px;
+    font-size: 1.75rem;
+    width: 48px;
+    height: 48px;
   }
 
   .cart-badge {
