@@ -1887,14 +1887,14 @@ ol {
     backdrop-filter: blur(4px);
   }
 
-  .floating-card:nth-child(1) {
+  .floating-card:nth-of-type(1) {
     top: 5%;
     left: 0;
     right: auto;
     bottom: auto;
   }
 
-  .floating-card:nth-child(2) {
+  .floating-card:nth-of-type(2) {
     top: 45%;
     right: 0;
     left: auto;
