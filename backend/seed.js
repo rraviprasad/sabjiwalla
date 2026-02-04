@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Product from './models/Product.js';
 
-dotenv.config();
+dotenv.config({ path: './.env' });
 
 const products = [
     // Vegetables
