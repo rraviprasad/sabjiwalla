@@ -1922,12 +1922,14 @@ ol {
   }
 
   .add-to-cart-btn {
-    padding: 8px;
+    height: 32px;
+    padding: 0 8px;
     font-size: 0.75rem;
     border-radius: var(--radius-sm);
   }
 
   .quantity-controls {
+    height: 32px;
     gap: 6px;
     padding: 2px;
   }
@@ -1935,7 +1937,7 @@ ol {
   .quantity-btn {
     width: 28px;
     height: 28px;
-    font-size: 1rem;
+    font-size: 0.875rem;
   }
 
   .quantity-value {
@@ -2088,7 +2090,7 @@ ol {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 20px;
+  padding: 12px 20px;
   background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
   border-bottom: 1px solid #e2e8f0;
 }
@@ -2126,7 +2128,7 @@ ol {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding: 14px 20px;
+  padding: 10px 20px;
   font-size: 1rem;
   font-weight: 500;
   color: var(--text-primary);
@@ -2154,7 +2156,7 @@ ol {
 }
 
 .mobile-sidebar-footer {
-  padding: 20px;
+  padding: 12px 20px;
   border-top: 1px solid #e2e8f0;
 }
 
@@ -2199,6 +2201,19 @@ ol {
 
   .login-btn {
     padding: 10px;
+    font-size: 1.25rem;
+  }
+
+  .cart-btn {
+    font-size: 1.25rem;
+  }
+
+  .cart-badge {
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    top: -4px;
+    right: -4px;
   }
 }
 
