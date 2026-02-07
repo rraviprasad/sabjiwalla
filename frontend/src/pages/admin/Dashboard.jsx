@@ -105,45 +105,12 @@ const AdminDashboard = () => {
                     </div>
                 </div>
 
-                {/* Recent Orders */}
-                <div className="admin-table">
-                    <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9' }}>
-                        <h2 style={{ fontSize: '1.25rem' }}>Recent Orders</h2>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Customer</th>
-                                <th>Date</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {recentOrders.map((order) => (
-                                <tr key={order._id}>
-                                    <td>#{order._id.slice(-8).toUpperCase()}</td>
-                                    <td>{order.shippingAddress?.name || 'N/A'}</td>
-                                    <td>{formatDate(order.createdAt)}</td>
-                                    <td style={{ fontWeight: 600 }}>₹{order.totalAmount}</td>
-                                    <td>
-                                        <span className={`status-badge ${order.status}`}>
-                                            {order.status.replace('_', ' ')}
-                                        </span>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-
-                {/* Quick Actions */}
-                <div style={{
+                {/* Quick Actions - Moved UP for easier access */}
+                <div className="admin-quick-actions" style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(2, 1fr)',
                     gap: '20px',
-                    marginTop: '32px'
+                    marginBottom: '32px'
                 }}>
                     <Link to="/admin/products" className="card" style={{
                         padding: '24px',
@@ -180,6 +147,39 @@ const AdminDashboard = () => {
                             </p>
                         </div>
                     </Link>
+                </div>
+
+                {/* Recent Orders - Moved DOWN */}
+                <div className="admin-table">
+                    <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9' }}>
+                        <h2 style={{ fontSize: '1.25rem' }}>Recent Orders</h2>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {recentOrders.map((order) => (
+                                <tr key={order._id}>
+                                    <td>#{order._id.slice(-8).toUpperCase()}</td>
+                                    <td>{order.shippingAddress?.name || 'N/A'}</td>
+                                    <td>{formatDate(order.createdAt)}</td>
+                                    <td style={{ fontWeight: 600 }}>₹{order.totalAmount}</td>
+                                    <td>
+                                        <span className={`status-badge ${order.status}`}>
+                                            {order.status.replace('_', ' ')}
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -2345,14 +2345,16 @@ ol {
   }
 
   /* Admin Quick Actions */
-  .admin-content>div:last-child {
+  .admin-quick-actions {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
-    margin-top: 20px !important;
+  }
+
+  .admin-quick-actions .card {
+    padding: 16px !important;
   }
 }
 
-/* ===== MOBILE SIDEBAR MENU ===== */
 .mobile-sidebar-overlay {
   position: fixed;
   inset: 0;
