@@ -114,10 +114,14 @@ router.put('/:id/status', protect, admin, async (req, res) => {
 // @access  Private
 router.put('/:id/cancel', protect, async (req, res) => {
     try {
-        const { reason } = req.body;
+        const { reason, customReason } = req.body;
 
         if (!reason) {
             return res.status(400).json({ message: 'Please select a reason for cancellation' });
+        }
+
+        if (reason === 'other' && !customReason) {
+            return res.status(400).json({ message: 'Please provide a reason for cancellation' });
         }
 
         const order = await Order.findById(req.params.id);
@@ -140,6 +144,9 @@ router.put('/:id/cancel', protect, async (req, res) => {
 
         order.status = 'cancelled';
         order.cancellationReason = reason;
+        if (customReason) {
+            order.customCancelReason = customReason;
+        }
         await order.save();
         res.json(order);
     } catch (error) {

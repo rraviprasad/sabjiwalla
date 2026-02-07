@@ -60,6 +60,17 @@ const AdminOrders = () => {
         });
     };
 
+    const getCancelReasonLabel = (reason) => {
+        const labels = {
+            changed_mind: 'Changed mind',
+            found_cheaper: 'Found cheaper',
+            wrong_items: 'Wrong items',
+            delivery_too_long: 'Slow delivery',
+            other: 'Other'
+        };
+        return labels[reason] || reason;
+    };
+
     if (loading) return <Loader />;
 
     return (
@@ -175,6 +186,28 @@ const AdminOrders = () => {
                                                 </option>
                                             ))}
                                         </select>
+                                        {/* Show cancellation reason for cancelled orders */}
+                                        {order.status === 'cancelled' && order.cancellationReason && (
+                                            <div
+                                                style={{
+                                                    marginTop: '6px',
+                                                    fontSize: '0.7rem',
+                                                    color: '#ef4444',
+                                                    background: '#fee2e2',
+                                                    padding: '4px 8px',
+                                                    borderRadius: '4px',
+                                                    maxWidth: '140px'
+                                                }}
+                                                title={order.customCancelReason || getCancelReasonLabel(order.cancellationReason)}
+                                            >
+                                                ❌ {getCancelReasonLabel(order.cancellationReason)}
+                                                {order.customCancelReason && (
+                                                    <div style={{ marginTop: '2px', fontStyle: 'italic' }}>
+                                                        "{order.customCancelReason.slice(0, 30)}{order.customCancelReason.length > 30 ? '...' : ''}"
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
                                     </td>
                                 </tr>
                             ))}

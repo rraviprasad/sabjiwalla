@@ -61,6 +61,9 @@ const orderSchema = new mongoose.Schema({
         type: String,
         enum: ['changed_mind', 'found_cheaper', 'wrong_items', 'delivery_too_long', 'other'],
     },
+    customCancelReason: {
+        type: String, // For "other" reason - customer typed message
+    },
     createdAt: {
         type: Date,
         default: Date.now,

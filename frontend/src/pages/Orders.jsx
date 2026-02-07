@@ -12,6 +12,7 @@ const Orders = () => {
     const [cancelling, setCancelling] = useState(null);
     const [showCancelModal, setShowCancelModal] = useState(null); // order ID to cancel
     const [cancelReason, setCancelReason] = useState('');
+    const [customReason, setCustomReason] = useState('');
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
@@ -45,11 +46,13 @@ const Orders = () => {
     const openCancelModal = (orderId) => {
         setShowCancelModal(orderId);
         setCancelReason('');
+        setCustomReason('');
     };
 
     const closeCancelModal = () => {
         setShowCancelModal(null);
         setCancelReason('');
+        setCustomReason('');
     };
 
     const handleCancelOrder = async () => {
@@ -58,10 +61,18 @@ const Orders = () => {
             return;
         }
 
+        if (cancelReason === 'other' && !customReason.trim()) {
+            toast.error('Please type your reason for cancellation');
+            return;
+        }
+
         const orderId = showCancelModal;
         setCancelling(orderId);
         try {
-            await axios.put(`/api/orders/${orderId}/cancel`, { reason: cancelReason });
+            await axios.put(`/api/orders/${orderId}/cancel`, {
+                reason: cancelReason,
+                customReason: cancelReason === 'other' ? customReason : undefined
+            });
             toast.success('Order cancelled successfully');
             // Update the order in state
             setOrders(orders.map(order =>
@@ -243,6 +254,25 @@ const Orders = () => {
                                     {reason.label}
                                 </label>
                             ))}
+
+                            {/* Custom reason text input - shown when "other" is selected */}
+                            {cancelReason === 'other' && (
+                                <textarea
+                                    value={customReason}
+                                    onChange={(e) => setCustomReason(e.target.value)}
+                                    placeholder="Please tell us your reason..."
+                                    rows={3}
+                                    style={{
+                                        width: '100%',
+                                        padding: '12px',
+                                        border: '2px solid #e2e8f0',
+                                        borderRadius: '8px',
+                                        fontSize: '0.9rem',
+                                        resize: 'none',
+                                        marginTop: '8px'
+                                    }}
+                                />
+                            )}
                         </div>
 
                         <div style={{ display: 'flex', gap: '12px' }}>
