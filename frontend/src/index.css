@@ -2353,6 +2353,32 @@ ol {
   .admin-quick-actions .card {
     padding: 16px !important;
   }
+
+  /* Admin Table Action Buttons - Visible on Mobile */
+  .admin-table .btn-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .admin-table .btn-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .admin-table .btn-icon:first-child {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--primary);
+  }
+
+  .admin-table .btn-icon:last-child {
+    background: rgba(239, 68, 68, 0.1);
+  }
 }
 
 .mobile-sidebar-overlay {
