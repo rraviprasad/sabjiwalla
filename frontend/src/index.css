@@ -2356,35 +2356,37 @@ ol {
 
   /* Admin Table Action Buttons - Visible on Mobile */
   .admin-table .btn-icon {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
-    border-radius: var(--radius-md);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
   }
 
   .admin-table .btn-icon svg {
     width: 20px !important;
     height: 20px !important;
+    stroke-width: 2.5 !important;
   }
 
-  .admin-table .btn-icon:first-child {
+  .admin-table td:last-child>div>.btn-icon:first-child {
     background: #22c55e !important;
-    color: white !important;
   }
 
-  .admin-table .btn-icon:first-child svg {
+  .admin-table td:last-child>div>.btn-icon:first-child svg {
+    color: white !important;
     stroke: white !important;
   }
 
-  .admin-table .btn-icon:last-child {
+  .admin-table td:last-child>div>.btn-icon:last-child {
     background: #ef4444 !important;
-    color: white !important;
   }
 
-  .admin-table .btn-icon:last-child svg {
+  .admin-table td:last-child>div>.btn-icon:last-child svg {
+    color: white !important;
     stroke: white !important;
   }
 }
