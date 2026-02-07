@@ -66,13 +66,69 @@ const Shop = () => {
     return (
         <div className="shop-page">
             <div className="container">
-                <div className="shop-header">
+                <div className="shop-header" style={{ marginBottom: '16px' }}>
                     <h1>Fresh Produce Shop</h1>
                     <p>Browse our selection of farm-fresh vegetables and fruits</p>
                 </div>
 
-                {/* Search Bar */}
-                <div style={{
+                {/* Mobile Filters: Category (Left) & Search (Right) Side-by-Side */}
+                <div className="mobile-only-filters" style={{
+                    display: 'none',
+                    gap: '8px',
+                    marginBottom: '16px',
+                    alignItems: 'center'
+                }}>
+                    <div style={{ flex: '0 0 130px' }}>
+                        <div className="category-dropdown" style={{ margin: 0 }}>
+                            <select
+                                value={category}
+                                onChange={(e) => handleCategoryChange(e.target.value)}
+                                style={{
+                                    padding: '10px 30px 10px 12px',
+                                    fontSize: '0.9rem',
+                                    borderRadius: '12px',
+                                    height: '44px'
+                                }}
+                            >
+                                {categories.map((cat) => (
+                                    <option key={cat.value} value={cat.value}>
+                                        {cat.label.split(' ')[0]} {/* Shorter labels for mobile */}
+                                    </option>
+                                ))}
+                            </select>
+                            <FiChevronDown className="dropdown-icon" style={{ right: '10px' }} />
+                        </div>
+                    </div>
+
+                    <div style={{ position: 'relative', flex: 1 }}>
+                        <FiSearch style={{
+                            position: 'absolute',
+                            left: '12px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            color: '#94a3b8',
+                            fontSize: '16px'
+                        }} />
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="input"
+                            style={{
+                                padding: '10px 10px 10px 36px',
+                                width: '100%',
+                                fontSize: '0.9rem',
+                                borderRadius: '12px',
+                                height: '44px',
+                                border: '1px solid #e2e8f0'
+                            }}
+                        />
+                    </div>
+                </div>
+
+                {/* Desktop Search Bar (Hidden on mobile) */}
+                <div className="desktop-search-container" style={{
                     position: 'relative',
                     maxWidth: '400px',
                     margin: '0 auto 24px auto'
@@ -102,24 +158,6 @@ const Shop = () => {
                     />
                 </div>
 
-                {/* Mobile: Dropdown Category Select */}
-                <div className="mobile-category-select">
-                    <label>Category</label>
-                    <div className="category-dropdown">
-                        <select
-                            value={category}
-                            onChange={(e) => handleCategoryChange(e.target.value)}
-                        >
-                            {categories.map((cat) => (
-                                <option key={cat.value} value={cat.value}>
-                                    {cat.label}
-                                </option>
-                            ))}
-                        </select>
-                        <FiChevronDown className="dropdown-icon" />
-                    </div>
-                </div>
-
                 {/* Desktop: Button Filters */}
                 <div className="shop-filters desktop-filters">
                     {categories.map((cat) => (
@@ -132,6 +170,28 @@ const Shop = () => {
                         </button>
                     ))}
                 </div>
+
+                <style>{`
+                    @media (max-width: 768px) {
+                        .mobile-only-filters {
+                            display: flex !important;
+                        }
+                        .desktop-search-container, .desktop-filters, .mobile-category-select {
+                            display: none !important;
+                        }
+                        .shop-header h1 {
+                            font-size: 1.5rem !important;
+                            margin-bottom: 4px !important;
+                        }
+                        .shop-header p {
+                            font-size: 0.85rem !important;
+                            margin-bottom: 0 !important;
+                        }
+                        .shop-page {
+                            padding-top: 80px !important;
+                        }
+                    }
+                `}</style>
 
                 {loading ? (
                     <Loader />
