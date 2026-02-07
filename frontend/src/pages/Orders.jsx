@@ -149,7 +149,7 @@ const Orders = () => {
     return (
         <div className="orders-page">
             <div className="container">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '12px' }}>
                     <h1 style={{ margin: 0 }}>My Orders</h1>
                     <select
                         value={statusFilter}

@@ -1658,20 +1658,20 @@ ol {
 
 /* ===== ORDERS PAGE ===== */
 .orders-page {
-  padding: calc(var(--header-height) + 40px) 0 80px;
+  padding: calc(var(--header-height) + 20px) 0 40px;
   min-height: 100vh;
 }
 
 .orders-page h1 {
-  font-size: 2rem;
-  margin-bottom: 32px;
+  font-size: 1.75rem;
+  margin-bottom: 16px;
 }
 
 .order-card {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   overflow: hidden;
 }
 
@@ -1679,7 +1679,7 @@ ol {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
+  padding: 12px 16px;
   background: var(--bg-primary);
   border-bottom: 1px solid #f1f5f9;
 }
@@ -1695,14 +1695,14 @@ ol {
 }
 
 .order-items {
-  padding: 20px 24px;
+  padding: 12px 16px;
 }
 
 .order-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 0;
+  gap: 12px;
+  padding: 8px 0;
 }
 
 .order-item:not(:last-child) {
@@ -1738,7 +1738,7 @@ ol {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 24px;
+  padding: 12px 16px;
   background: var(--bg-primary);
   border-top: 1px solid #f1f5f9;
 }
@@ -2199,13 +2199,15 @@ ol {
 
   /* Orders */
   .order-header {
-    flex-direction: column;
+    flex-direction: row;
     gap: 8px;
-    align-items: flex-start;
+    align-items: center;
+    padding: 10px 12px !important;
   }
 
   .order-card {
-    padding: 12px;
+    padding: 0;
+    margin-bottom: 12px;
   }
 
   /* Cart */
