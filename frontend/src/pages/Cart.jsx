@@ -28,7 +28,7 @@ const Cart = () => {
     return (
         <div className="cart-page">
             <div className="container">
-                <h1 style={{ fontSize: '2rem', marginBottom: '32px' }}>
+                <h1 style={{ fontSize: '1.75rem', marginBottom: '16px' }}>
                     Shopping Cart ({getCartCount()} items)
                 </h1>
 
