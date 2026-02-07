@@ -2356,10 +2356,9 @@ ol {
 
   /* Admin Table Action Buttons - Visible on Mobile */
   .admin-table .btn-icon {
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    background: var(--bg-primary);
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
     border-radius: var(--radius-md);
     display: flex;
     align-items: center;
@@ -2367,17 +2366,26 @@ ol {
   }
 
   .admin-table .btn-icon svg {
-    width: 18px;
-    height: 18px;
+    width: 20px !important;
+    height: 20px !important;
   }
 
   .admin-table .btn-icon:first-child {
-    background: rgba(34, 197, 94, 0.1);
-    color: var(--primary);
+    background: #22c55e !important;
+    color: white !important;
+  }
+
+  .admin-table .btn-icon:first-child svg {
+    stroke: white !important;
   }
 
   .admin-table .btn-icon:last-child {
-    background: rgba(239, 68, 68, 0.1);
+    background: #ef4444 !important;
+    color: white !important;
+  }
+
+  .admin-table .btn-icon:last-child svg {
+    stroke: white !important;
   }
 }
 
