@@ -1018,14 +1018,14 @@ ol {
 .footer {
   background: var(--bg-dark);
   color: var(--text-light);
-  padding: 60px 0 24px;
+  padding: 40px 0 20px;
 }
 
 .footer-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 48px;
-  margin-bottom: 48px;
+  gap: 24px;
+  margin-bottom: 24px;
 }
 
 .footer-brand {
@@ -1042,13 +1042,27 @@ ol {
 
 .footer-brand p {
   color: #94a3b8;
-  line-height: 1.8;
+  line-height: 1.6;
+  font-size: 0.9rem;
 }
 
-.footer-social {
+.footer-social-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
   display: flex;
-  gap: 12px;
-  margin-top: 24px;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: white;
+  transition: all var(--transition-base);
+}
+
+.footer-social-icon:hover {
+  background: var(--primary);
+  transform: translateY(-2px);
+  color: white;
 }
 
 .footer-social a {
@@ -1071,7 +1085,7 @@ ol {
 .footer-links h4 {
   font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   color: white;
 }
 
@@ -1826,11 +1840,14 @@ ol {
 
   .footer-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    gap: 16px;
+    margin-bottom: 16px;
   }
 
   .footer-brand {
     grid-column: 1 / -1;
+    max-width: none;
+    margin-bottom: 8px;
   }
 
   .footer-links:nth-child(4) {

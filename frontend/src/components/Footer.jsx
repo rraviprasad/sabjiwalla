@@ -7,16 +7,16 @@ const Footer = () => {
             <div className="container">
                 <div className="footer-grid">
                     <div className="footer-brand">
-                        <h3>
-                            <span>🥬</span> Sabjiwala
-                        </h3>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                            <h3 style={{ margin: 0 }}>
+                                <span>🥬</span> Sabjiwala
+                            </h3>
+                            <a href="#" className="footer-social-icon"><FiInstagram /></a>
+                        </div>
                         <p>
                             Fresh vegetables and fruits delivered straight from the farm to your doorstep.
                             We ensure quality, freshness, and the best prices in town.
                         </p>
-                        <div className="footer-social">
-                            <a href="#"><FiInstagram /></a>
-                        </div>
                     </div>
 
                     <div className="footer-links">
