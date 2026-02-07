@@ -109,6 +109,37 @@ router.put('/:id/status', protect, admin, async (req, res) => {
     }
 });
 
+// @route   PUT /api/orders/:id/cancel
+// @desc    Cancel order (customer - only if pending or confirmed)
+// @access  Private
+router.put('/:id/cancel', protect, async (req, res) => {
+    try {
+        const order = await Order.findById(req.params.id);
+
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+
+        // Check if user is the owner
+        if (order.user.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ message: 'Not authorized to cancel this order' });
+        }
+
+        // Only allow cancellation for pending or confirmed orders
+        if (!['pending', 'confirmed'].includes(order.status)) {
+            return res.status(400).json({
+                message: 'Order cannot be cancelled. It is already being prepared or delivered.'
+            });
+        }
+
+        order.status = 'cancelled';
+        await order.save();
+        res.json(order);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 // @route   GET /api/orders/stats
 // @desc    Get order statistics (admin)
 // @access  Private/Admin

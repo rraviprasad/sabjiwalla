@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiPackage } from 'react-icons/fi';
+import { FiPackage, FiX } from 'react-icons/fi';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 import Loader from '../components/Loader';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [cancelling, setCancelling] = useState(null);
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
 
@@ -29,6 +31,24 @@ const Orders = () => {
         };
         fetchOrders();
     }, [isAuthenticated, navigate]);
+
+    const handleCancelOrder = async (orderId) => {
+        if (!window.confirm('Are you sure you want to cancel this order?')) return;
+
+        setCancelling(orderId);
+        try {
+            await axios.put(`/api/orders/${orderId}/cancel`);
+            toast.success('Order cancelled successfully');
+            // Update the order in state
+            setOrders(orders.map(order =>
+                order._id === orderId ? { ...order, status: 'cancelled' } : order
+            ));
+        } catch (error) {
+            toast.error(error.response?.data?.message || 'Failed to cancel order');
+        } finally {
+            setCancelling(null);
+        }
+    };
 
     const formatDate = (date) => {
         return new Date(date).toLocaleDateString('en-IN', {
@@ -111,6 +131,30 @@ const Orders = () => {
                                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
                                     Delivery to: {order.shippingAddress.city}
                                 </p>
+                                {/* Cancel button for pending/confirmed orders */}
+                                {['pending', 'confirmed'].includes(order.status) && (
+                                    <button
+                                        className="btn btn-sm"
+                                        onClick={() => handleCancelOrder(order._id)}
+                                        disabled={cancelling === order._id}
+                                        style={{
+                                            marginTop: '8px',
+                                            background: '#fee2e2',
+                                            color: '#dc2626',
+                                            border: 'none',
+                                            padding: '6px 12px',
+                                            fontSize: '0.75rem',
+                                            borderRadius: '6px',
+                                            cursor: 'pointer',
+                                            display: 'inline-flex',
+                                            alignItems: 'center',
+                                            gap: '4px'
+                                        }}
+                                    >
+                                        <FiX size={14} />
+                                        {cancelling === order._id ? 'Cancelling...' : 'Cancel Order'}
+                                    </button>
+                                )}
                             </div>
                             <span className="order-total">Total: ₹{order.totalAmount.toFixed(0)}</span>
                         </div>
