@@ -10,8 +10,18 @@ const Orders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cancelling, setCancelling] = useState(null);
+    const [showCancelModal, setShowCancelModal] = useState(null); // order ID to cancel
+    const [cancelReason, setCancelReason] = useState('');
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
+
+    const cancelReasons = [
+        { value: 'changed_mind', label: 'Changed my mind' },
+        { value: 'found_cheaper', label: 'Found cheaper elsewhere' },
+        { value: 'wrong_items', label: 'Ordered wrong items' },
+        { value: 'delivery_too_long', label: 'Delivery taking too long' },
+        { value: 'other', label: 'Other reason' },
+    ];
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -32,17 +42,32 @@ const Orders = () => {
         fetchOrders();
     }, [isAuthenticated, navigate]);
 
-    const handleCancelOrder = async (orderId) => {
-        if (!window.confirm('Are you sure you want to cancel this order?')) return;
+    const openCancelModal = (orderId) => {
+        setShowCancelModal(orderId);
+        setCancelReason('');
+    };
 
+    const closeCancelModal = () => {
+        setShowCancelModal(null);
+        setCancelReason('');
+    };
+
+    const handleCancelOrder = async () => {
+        if (!cancelReason) {
+            toast.error('Please select a reason for cancellation');
+            return;
+        }
+
+        const orderId = showCancelModal;
         setCancelling(orderId);
         try {
-            await axios.put(`/api/orders/${orderId}/cancel`);
+            await axios.put(`/api/orders/${orderId}/cancel`, { reason: cancelReason });
             toast.success('Order cancelled successfully');
             // Update the order in state
             setOrders(orders.map(order =>
                 order._id === orderId ? { ...order, status: 'cancelled' } : order
             ));
+            closeCancelModal();
         } catch (error) {
             toast.error(error.response?.data?.message || 'Failed to cancel order');
         } finally {
@@ -135,8 +160,7 @@ const Orders = () => {
                                 {['pending', 'confirmed'].includes(order.status) && (
                                     <button
                                         className="btn btn-sm"
-                                        onClick={() => handleCancelOrder(order._id)}
-                                        disabled={cancelling === order._id}
+                                        onClick={() => openCancelModal(order._id)}
                                         style={{
                                             marginTop: '8px',
                                             background: '#fee2e2',
@@ -152,7 +176,7 @@ const Orders = () => {
                                         }}
                                     >
                                         <FiX size={14} />
-                                        {cancelling === order._id ? 'Cancelling...' : 'Cancel Order'}
+                                        Cancel Order
                                     </button>
                                 )}
                             </div>
@@ -161,6 +185,101 @@ const Orders = () => {
                     </div>
                 ))}
             </div>
+
+            {/* Cancel Order Modal */}
+            {showCancelModal && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        inset: 0,
+                        background: 'rgba(0,0,0,0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 1000,
+                        padding: '20px',
+                    }}
+                    onClick={closeCancelModal}
+                >
+                    <div
+                        style={{
+                            background: 'white',
+                            borderRadius: '16px',
+                            padding: '24px',
+                            maxWidth: '400px',
+                            width: '100%',
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h3 style={{ marginBottom: '8px', fontSize: '1.25rem' }}>Cancel Order</h3>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: '20px', fontSize: '0.9rem' }}>
+                            Please tell us why you're cancelling this order
+                        </p>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
+                            {cancelReasons.map((reason) => (
+                                <label
+                                    key={reason.value}
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '12px',
+                                        padding: '12px',
+                                        border: `2px solid ${cancelReason === reason.value ? '#22c55e' : '#e2e8f0'}`,
+                                        borderRadius: '8px',
+                                        cursor: 'pointer',
+                                        background: cancelReason === reason.value ? '#f0fdf4' : 'transparent',
+                                        transition: 'all 0.2s'
+                                    }}
+                                >
+                                    <input
+                                        type="radio"
+                                        name="cancelReason"
+                                        value={reason.value}
+                                        checked={cancelReason === reason.value}
+                                        onChange={(e) => setCancelReason(e.target.value)}
+                                        style={{ width: '18px', height: '18px', accentColor: '#22c55e' }}
+                                    />
+                                    {reason.label}
+                                </label>
+                            ))}
+                        </div>
+
+                        <div style={{ display: 'flex', gap: '12px' }}>
+                            <button
+                                onClick={closeCancelModal}
+                                style={{
+                                    flex: 1,
+                                    padding: '12px',
+                                    border: '1px solid #e2e8f0',
+                                    borderRadius: '8px',
+                                    background: 'white',
+                                    cursor: 'pointer',
+                                    fontWeight: 500
+                                }}
+                            >
+                                Keep Order
+                            </button>
+                            <button
+                                onClick={handleCancelOrder}
+                                disabled={!cancelReason || cancelling}
+                                style={{
+                                    flex: 1,
+                                    padding: '12px',
+                                    border: 'none',
+                                    borderRadius: '8px',
+                                    background: cancelReason ? '#ef4444' : '#fca5a5',
+                                    color: 'white',
+                                    cursor: cancelReason ? 'pointer' : 'not-allowed',
+                                    fontWeight: 500
+                                }}
+                            >
+                                {cancelling ? 'Cancelling...' : 'Cancel Order'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

@@ -57,6 +57,10 @@ const orderSchema = new mongoose.Schema({
         type: Date,
     },
     notes: String,
+    cancellationReason: {
+        type: String,
+        enum: ['changed_mind', 'found_cheaper', 'wrong_items', 'delivery_too_long', 'other'],
+    },
     createdAt: {
         type: Date,
         default: Date.now,
