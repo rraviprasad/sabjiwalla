@@ -45,7 +45,17 @@ const Cart = () => {
                                         <img src={item.image} alt={item.name} />
                                     </div>
                                     <div className="cart-item-info">
-                                        <h3 className="cart-item-name">{item.name}</h3>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px' }}>
+                                            <h3 className="cart-item-name">{item.name}</h3>
+                                            <div style={{
+                                                fontWeight: 700,
+                                                fontSize: '1rem',
+                                                color: 'var(--primary)',
+                                                whiteSpace: 'nowrap'
+                                            }}>
+                                                ₹{(discountedPrice * item.quantity).toFixed(0)}
+                                            </div>
+                                        </div>
                                         <p className="cart-item-price">
                                             ₹{discountedPrice.toFixed(0)} / {item.unit}
                                         </p>
@@ -69,16 +79,9 @@ const Cart = () => {
                                                 className="remove-btn"
                                                 onClick={() => removeFromCart(item._id)}
                                             >
-                                                <FiTrash2 /> Remove
+                                                <FiTrash2 /> <span>Remove</span>
                                             </button>
                                         </div>
-                                    </div>
-                                    <div style={{
-                                        fontWeight: 700,
-                                        fontSize: '1.125rem',
-                                        color: 'var(--primary)'
-                                    }}>
-                                        ₹{(discountedPrice * item.quantity).toFixed(0)}
                                     </div>
                                 </div>
                             );

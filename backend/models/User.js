@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide your name'],
         trim: true,
-    }, 
+    },
     email: {
         type: String,
         required: [true, 'Please provide your email'],
@@ -32,6 +32,8 @@ const userSchema = new mongoose.Schema({
         pincode: String,
     },
     savedAddresses: [{
+        name: String,
+        phone: String,
         street: String,
         city: String,
         state: String,

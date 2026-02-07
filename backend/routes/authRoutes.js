@@ -7,7 +7,7 @@ import { protect } from '../middleware/authMiddleware.js';
 import sendEmail from '../utils/sendEmail.js';
 import { OAuth2Client } from 'google-auth-library';
 
-const router = express.Router(); 
+const router = express.Router();
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -395,6 +395,8 @@ router.post('/save-address', protect, async (req, res) => {
 
         if (user) {
             const newAddress = {
+                name: req.body.name,
+                phone: req.body.phone,
                 street: req.body.street,
                 city: req.body.city,
                 state: req.body.state,

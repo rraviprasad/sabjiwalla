@@ -55,6 +55,8 @@ const Checkout = () => {
         setSelectedAddressIndex(index);
         setFormData(prev => ({
             ...prev,
+            name: address.name || prev.name,
+            phone: address.phone || prev.phone,
             street: address.street,
             city: address.city,
             state: address.state,
@@ -94,6 +96,8 @@ const Checkout = () => {
             if (selectedAddressIndex === -1 && saveNewAddress) {
                 try {
                     await axios.post('/api/auth/save-address', {
+                        name: formData.name,
+                        phone: formData.phone,
                         street: formData.street,
                         city: formData.city,
                         state: formData.state,
@@ -168,7 +172,8 @@ const Checkout = () => {
                                                 onClick={() => selectAddress(addr, index)}
                                             >
                                                 {selectedAddressIndex === index && <div className="selected-check"><FiCheck /></div>}
-                                                <p style={{ fontWeight: 600, marginBottom: '4px' }}>{user?.name}</p>
+                                                <p style={{ fontWeight: 600, marginBottom: '4px' }}>{addr.name || user?.name}</p>
+                                                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '8px' }}>{addr.phone || 'No phone'}</p>
                                                 <p>{addr.street}</p>
                                                 <p>{addr.city}, {addr.state} - {addr.pincode}</p>
                                             </div>

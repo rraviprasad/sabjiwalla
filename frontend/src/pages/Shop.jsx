@@ -133,19 +133,6 @@ const Shop = () => {
                     ))}
                 </div>
 
-                {/* Search Bar */}
-                <div className="search-bar-wrapper">
-                    <div className="search-bar">
-                        <FiSearch />
-                        <input
-                            type="text"
-                            placeholder="Search products..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                    </div>
-                </div>
-
                 {loading ? (
                     <Loader />
                 ) : products.length > 0 ? (

@@ -62,11 +62,16 @@ const OrderSuccess = () => {
                     </ul>
                 </div>
 
-                <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-                    <Link to="/orders" className="btn btn-secondary">
+                <div style={{
+                    display: 'flex',
+                    gap: '12px',
+                    justifyContent: 'center',
+                    flexWrap: 'wrap'
+                }}>
+                    <Link to="/orders" className="btn btn-secondary" style={{ padding: '10px 20px', borderRadius: '12px', fontSize: '0.95rem' }}>
                         <FiFileText /> View Orders
                     </Link>
-                    <Link to="/shop" className="btn btn-primary">
+                    <Link to="/shop" className="btn btn-primary" style={{ padding: '10px 20px', borderRadius: '12px', fontSize: '0.95rem' }}>
                         <FiShoppingBag /> Continue Shopping
                     </Link>
                 </div>
