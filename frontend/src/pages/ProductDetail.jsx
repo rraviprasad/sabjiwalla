@@ -148,7 +148,7 @@ const ProductDetail = () => {
                                 <FiCheck /> Fresh from farm
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-secondary)' }}>
-                                <FiCheck /> Same day delivery available
+                                <FiCheck /> Delivery within 60 minutes
                             </div>
                         </div>
 
