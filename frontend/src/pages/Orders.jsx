@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiPackage, FiX } from 'react-icons/fi';
 import axios from 'axios';
@@ -13,8 +13,19 @@ const Orders = () => {
     const [showCancelModal, setShowCancelModal] = useState(null); // order ID to cancel
     const [cancelReason, setCancelReason] = useState('');
     const [customReason, setCustomReason] = useState('');
+    const [statusFilter, setStatusFilter] = useState('all');
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
+
+    const orderStatuses = [
+        { value: 'all', label: 'All Orders' },
+        { value: 'pending', label: 'Pending' },
+        { value: 'confirmed', label: 'Confirmed' },
+        { value: 'preparing', label: 'Preparing' },
+        { value: 'out_for_delivery', label: 'Out for Delivery' },
+        { value: 'delivered', label: 'Delivered' },
+        { value: 'cancelled', label: 'Cancelled' },
+    ];
 
     const cancelReasons = [
         { value: 'changed_mind', label: 'Changed my mind' },
@@ -96,6 +107,12 @@ const Orders = () => {
         });
     };
 
+    // Filter orders by status
+    const filteredOrders = useMemo(() => {
+        if (statusFilter === 'all') return orders;
+        return orders.filter(order => order.status === statusFilter);
+    }, [orders, statusFilter]);
+
     const getStatusColor = (status) => {
         const colors = {
             pending: '#f59e0b',
@@ -132,9 +149,27 @@ const Orders = () => {
     return (
         <div className="orders-page">
             <div className="container">
-                <h1>My Orders</h1>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
+                    <h1 style={{ margin: 0 }}>My Orders</h1>
+                    <select
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                        className="input"
+                        style={{ minWidth: '140px', padding: '10px 12px' }}
+                    >
+                        {orderStatuses.map(s => (
+                            <option key={s.value} value={s.value}>{s.label}</option>
+                        ))}
+                    </select>
+                </div>
 
-                {orders.map((order) => (
+                {filteredOrders.length === 0 && (
+                    <div style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-secondary)' }}>
+                        No {statusFilter !== 'all' ? statusFilter.replace('_', ' ') : ''} orders found
+                    </div>
+                )}
+
+                {filteredOrders.map((order) => (
                     <div key={order._id} className="order-card">
                         <div className="order-header">
                             <div>

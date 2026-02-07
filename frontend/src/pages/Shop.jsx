@@ -71,6 +71,37 @@ const Shop = () => {
                     <p>Browse our selection of farm-fresh vegetables and fruits</p>
                 </div>
 
+                {/* Search Bar */}
+                <div style={{
+                    position: 'relative',
+                    maxWidth: '400px',
+                    margin: '0 auto 24px auto'
+                }}>
+                    <FiSearch style={{
+                        position: 'absolute',
+                        left: '14px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        color: '#94a3b8',
+                        fontSize: '18px'
+                    }} />
+                    <input
+                        type="text"
+                        placeholder="Search vegetables, fruits..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="input"
+                        style={{
+                            paddingLeft: '44px',
+                            width: '100%',
+                            fontSize: '1rem',
+                            padding: '14px 14px 14px 44px',
+                            borderRadius: '50px',
+                            border: '2px solid #e2e8f0'
+                        }}
+                    />
+                </div>
+
                 {/* Mobile: Dropdown Category Select */}
                 <div className="mobile-category-select">
                     <label>Category</label>

@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiPackage, FiBox, FiList, FiX, FiEye, FiMapPin, FiPhone, FiUser } from 'react-icons/fi';
+import { FiPackage, FiBox, FiList, FiX, FiEye, FiMapPin, FiPhone, FiUser, FiSearch } from 'react-icons/fi';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/AuthContext';
@@ -10,6 +10,8 @@ const AdminOrders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedOrder, setSelectedOrder] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [statusFilter, setStatusFilter] = useState('all');
     const { isAdmin } = useAuth();
     const navigate = useNavigate();
 
@@ -72,6 +74,32 @@ const AdminOrders = () => {
         return labels[reason] || reason;
     };
 
+    // Filter orders based on search and status
+    const filteredOrders = useMemo(() => {
+        return orders.filter(order => {
+            // Status filter
+            if (statusFilter !== 'all' && order.status !== statusFilter) {
+                return false;
+            }
+
+            // Search filter - search by order ID, customer name, or phone
+            if (searchQuery.trim()) {
+                const query = searchQuery.toLowerCase();
+                const orderId = order._id.toLowerCase();
+                const customerName = order.shippingAddress?.name?.toLowerCase() || '';
+                const customerPhone = order.shippingAddress?.phone || '';
+
+                if (!orderId.includes(query) &&
+                    !customerName.includes(query) &&
+                    !customerPhone.includes(query)) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+    }, [orders, searchQuery, statusFilter]);
+
     if (loading) return <Loader />;
 
     return (
@@ -94,8 +122,56 @@ const AdminOrders = () => {
                 <div className="admin-header">
                     <h1>Orders</h1>
                     <p style={{ color: 'var(--text-secondary)' }}>
-                        {orders.length} total orders
+                        {filteredOrders.length} of {orders.length} orders
                     </p>
+                </div>
+
+                {/* Search and Filters */}
+                <div style={{
+                    display: 'flex',
+                    gap: '12px',
+                    marginBottom: '20px',
+                    flexWrap: 'wrap'
+                }}>
+                    {/* Search Box */}
+                    <div style={{
+                        position: 'relative',
+                        flex: '1',
+                        minWidth: '200px',
+                        maxWidth: '350px'
+                    }}>
+                        <FiSearch style={{
+                            position: 'absolute',
+                            left: '12px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            color: '#94a3b8'
+                        }} />
+                        <input
+                            type="text"
+                            placeholder="Search by ID, name, phone..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="input"
+                            style={{
+                                paddingLeft: '38px',
+                                width: '100%'
+                            }}
+                        />
+                    </div>
+
+                    {/* Status Filter */}
+                    <select
+                        value={statusFilter}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                        className="input"
+                        style={{ minWidth: '140px' }}
+                    >
+                        <option value="all">All Status</option>
+                        {statuses.map(s => (
+                            <option key={s.value} value={s.value}>{s.label}</option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="admin-table">
@@ -112,7 +188,7 @@ const AdminOrders = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {orders.map((order) => (
+                            {filteredOrders.map((order) => (
                                 <tr key={order._id}>
                                     <td>
                                         <span style={{ fontWeight: 600 }}>

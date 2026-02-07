@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiPackage, FiBox, FiList, FiPlus, FiEdit2, FiTrash2, FiX } from 'react-icons/fi';
+import { FiPackage, FiBox, FiList, FiPlus, FiEdit2, FiTrash2, FiX, FiSearch } from 'react-icons/fi';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/AuthContext';
@@ -11,6 +11,8 @@ const AdminProducts = () => {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [editingProduct, setEditingProduct] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [categoryFilter, setCategoryFilter] = useState('all');
     const [formData, setFormData] = useState({
         name: '',
         nameHindi: '',
@@ -25,6 +27,13 @@ const AdminProducts = () => {
     const [imageFile, setImageFile] = useState(null);
     const { isAdmin } = useAuth();
     const navigate = useNavigate();
+
+    const categories = [
+        { value: 'vegetables', label: 'Vegetables' },
+        { value: 'fruits', label: 'Fruits' },
+        { value: 'leafy_greens', label: 'Leafy Greens' },
+        { value: 'exotic', label: 'Exotic' },
+    ];
 
     useEffect(() => {
         if (!isAdmin) {
@@ -44,6 +53,29 @@ const AdminProducts = () => {
             setLoading(false);
         }
     };
+
+    // Filter products based on search and category
+    const filteredProducts = useMemo(() => {
+        return products.filter(product => {
+            // Category filter
+            if (categoryFilter !== 'all' && product.category !== categoryFilter) {
+                return false;
+            }
+
+            // Search filter
+            if (searchQuery.trim()) {
+                const query = searchQuery.toLowerCase();
+                const productName = product.name?.toLowerCase() || '';
+                const productNameHindi = product.nameHindi?.toLowerCase() || '';
+
+                if (!productName.includes(query) && !productNameHindi.includes(query)) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
+    }, [products, searchQuery, categoryFilter]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -157,6 +189,59 @@ const AdminProducts = () => {
                     </button>
                 </div>
 
+                {/* Search and Filters */}
+                <div style={{
+                    display: 'flex',
+                    gap: '12px',
+                    marginBottom: '20px',
+                    flexWrap: 'wrap',
+                    alignItems: 'center'
+                }}>
+                    {/* Search Box */}
+                    <div style={{
+                        position: 'relative',
+                        flex: '1',
+                        minWidth: '200px',
+                        maxWidth: '300px'
+                    }}>
+                        <FiSearch style={{
+                            position: 'absolute',
+                            left: '12px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            color: '#94a3b8'
+                        }} />
+                        <input
+                            type="text"
+                            placeholder="Search products..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="input"
+                            style={{
+                                paddingLeft: '38px',
+                                width: '100%'
+                            }}
+                        />
+                    </div>
+
+                    {/* Category Filter */}
+                    <select
+                        value={categoryFilter}
+                        onChange={(e) => setCategoryFilter(e.target.value)}
+                        className="input"
+                        style={{ minWidth: '140px' }}
+                    >
+                        <option value="all">All Categories</option>
+                        {categories.map(c => (
+                            <option key={c.value} value={c.value}>{c.label}</option>
+                        ))}
+                    </select>
+
+                    <span style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+                        {filteredProducts.length} of {products.length} products
+                    </span>
+                </div>
+
                 <div className="admin-table">
                     <table>
                         <thead>
@@ -171,7 +256,7 @@ const AdminProducts = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {products.map((product) => (
+                            {filteredProducts.map((product) => (
                                 <tr key={product._id}>
                                     <td>
                                         <img
