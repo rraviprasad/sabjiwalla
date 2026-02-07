@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FiPackage, FiBox, FiList } from 'react-icons/fi';
+import { FiPackage, FiBox, FiList, FiX, FiEye, FiMapPin, FiPhone, FiUser } from 'react-icons/fi';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../context/AuthContext';
@@ -9,6 +9,7 @@ import Loader from '../../components/Loader';
 const AdminOrders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [selectedOrder, setSelectedOrder] = useState(null);
     const { isAdmin } = useAuth();
     const navigate = useNavigate();
 
@@ -127,36 +128,39 @@ const AdminOrders = () => {
                                         </div>
                                     </td>
                                     <td>
-                                        <div style={{ display: 'flex', gap: '4px' }}>
-                                            {order.items.slice(0, 3).map((item, idx) => (
+                                        <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+                                            {order.items.slice(0, 2).map((item, idx) => (
                                                 <img
                                                     key={idx}
                                                     src={item.image}
                                                     alt={item.name}
                                                     title={`${item.name} x${item.quantity}`}
                                                     style={{
-                                                        width: '36px',
-                                                        height: '36px',
+                                                        width: '32px',
+                                                        height: '32px',
                                                         objectFit: 'cover',
                                                         borderRadius: '6px',
                                                     }}
                                                 />
                                             ))}
-                                            {order.items.length > 3 && (
-                                                <span style={{
-                                                    width: '36px',
-                                                    height: '36px',
-                                                    background: 'var(--bg-primary)',
+                                            <button
+                                                onClick={() => setSelectedOrder(order)}
+                                                style={{
+                                                    width: '32px',
+                                                    height: '32px',
+                                                    background: '#f0fdf4',
+                                                    border: 'none',
                                                     borderRadius: '6px',
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     justifyContent: 'center',
-                                                    fontSize: '0.75rem',
-                                                    fontWeight: 600,
-                                                }}>
-                                                    +{order.items.length - 3}
-                                                </span>
-                                            )}
+                                                    cursor: 'pointer',
+                                                    color: '#22c55e'
+                                                }}
+                                                title="View all items"
+                                            >
+                                                <FiEye size={16} />
+                                            </button>
                                         </div>
                                     </td>
                                     <td style={{ fontWeight: 600, color: 'var(--primary)' }}>
@@ -221,6 +225,150 @@ const AdminOrders = () => {
                     )}
                 </div>
             </div>
+
+            {/* Order Details Modal */}
+            {selectedOrder && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        inset: 0,
+                        background: 'rgba(0,0,0,0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 1000,
+                        padding: '20px',
+                    }}
+                    onClick={() => setSelectedOrder(null)}
+                >
+                    <div
+                        style={{
+                            background: 'white',
+                            borderRadius: '16px',
+                            maxWidth: '500px',
+                            width: '100%',
+                            maxHeight: '90vh',
+                            overflow: 'auto',
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Modal Header */}
+                        <div style={{
+                            padding: '20px',
+                            borderBottom: '1px solid #e2e8f0',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            position: 'sticky',
+                            top: 0,
+                            background: 'white',
+                            zIndex: 1
+                        }}>
+                            <div>
+                                <h3 style={{ marginBottom: '4px' }}>Order #{selectedOrder._id.slice(-8).toUpperCase()}</h3>
+                                <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                                    {formatDate(selectedOrder.createdAt)}
+                                </span>
+                            </div>
+                            <button
+                                onClick={() => setSelectedOrder(null)}
+                                style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    padding: '8px'
+                                }}
+                            >
+                                <FiX size={24} />
+                            </button>
+                        </div>
+
+                        {/* Customer Info */}
+                        <div style={{ padding: '16px 20px', background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
+                            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.875rem' }}>
+                                    <FiUser size={14} color="#64748b" />
+                                    {selectedOrder.shippingAddress?.name}
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.875rem' }}>
+                                    <FiPhone size={14} color="#64748b" />
+                                    {selectedOrder.shippingAddress?.phone}
+                                </div>
+                            </div>
+                            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: '0.875rem', marginTop: '8px', color: 'var(--text-secondary)' }}>
+                                <FiMapPin size={14} style={{ marginTop: '2px', flexShrink: 0 }} />
+                                {selectedOrder.shippingAddress?.street}, {selectedOrder.shippingAddress?.city}, {selectedOrder.shippingAddress?.state} - {selectedOrder.shippingAddress?.pincode}
+                            </div>
+                        </div>
+
+                        {/* Products List */}
+                        <div style={{ padding: '16px 20px' }}>
+                            <h4 style={{ marginBottom: '12px', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+                                Order Items ({selectedOrder.items.length})
+                            </h4>
+
+                            {selectedOrder.items.map((item, idx) => (
+                                <div
+                                    key={idx}
+                                    style={{
+                                        display: 'flex',
+                                        gap: '12px',
+                                        padding: '12px',
+                                        background: '#f8fafc',
+                                        borderRadius: '8px',
+                                        marginBottom: '8px',
+                                        alignItems: 'center'
+                                    }}
+                                >
+                                    <img
+                                        src={item.image}
+                                        alt={item.name}
+                                        style={{
+                                            width: '50px',
+                                            height: '50px',
+                                            objectFit: 'cover',
+                                            borderRadius: '8px'
+                                        }}
+                                    />
+                                    <div style={{ flex: 1 }}>
+                                        <p style={{ fontWeight: 500, marginBottom: '2px' }}>{item.name}</p>
+                                        <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                            ₹{item.price} × {item.quantity}
+                                        </p>
+                                    </div>
+                                    <span style={{ fontWeight: 600, color: 'var(--primary)' }}>
+                                        ₹{(item.price * item.quantity).toFixed(0)}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Order Summary */}
+                        <div style={{ padding: '16px 20px', borderTop: '1px solid #e2e8f0', background: '#f8fafc' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
+                                <span>Items Total</span>
+                                <span>₹{selectedOrder.itemsTotal}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
+                                <span>Delivery</span>
+                                <span>₹{selectedOrder.deliveryCharge}</span>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 600, fontSize: '1.1rem', paddingTop: '8px', borderTop: '1px dashed #e2e8f0' }}>
+                                <span>Total</span>
+                                <span style={{ color: 'var(--primary)' }}>₹{selectedOrder.totalAmount}</span>
+                            </div>
+                            <div style={{ marginTop: '12px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                Payment: <strong style={{ textTransform: 'uppercase' }}>{selectedOrder.paymentMethod}</strong>
+                            </div>
+                            {selectedOrder.notes && (
+                                <div style={{ marginTop: '8px', fontSize: '0.8rem', color: 'var(--text-secondary)', fontStyle: 'italic' }}>
+                                    📝 Note: {selectedOrder.notes}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
