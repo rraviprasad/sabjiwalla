@@ -60,14 +60,14 @@ const ProductDetail = () => {
                     <FiArrowLeft /> Back to Shop
                 </Link>
 
-                <div style={{
+                <div className="product-detail-grid" style={{
                     display: 'grid',
                     gridTemplateColumns: '1fr 1fr',
                     gap: '60px',
                     alignItems: 'start'
                 }}>
                     {/* Product Image */}
-                    <div style={{
+                    <div className="product-detail-image" style={{
                         position: 'relative',
                         borderRadius: 'var(--radius-xl)',
                         overflow: 'hidden',
@@ -92,7 +92,7 @@ const ProductDetail = () => {
                     </div>
 
                     {/* Product Info */}
-                    <div>
+                    <div className="product-detail-info">
                         <span className="product-category" style={{ fontSize: '0.875rem' }}>
                             {product.category}
                         </span>
@@ -153,7 +153,7 @@ const ProductDetail = () => {
                         </div>
 
                         {/* Quantity & Add to Cart */}
-                        <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
+                        <div className="product-detail-actions" style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
                             <div className="quantity-controls" style={{ padding: '8px' }}>
                                 <button
                                     className="quantity-btn"
