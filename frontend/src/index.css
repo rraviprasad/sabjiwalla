@@ -2353,6 +2353,75 @@ ol {
   .admin-quick-actions .card {
     padding: 16px !important;
   }
+
+  /* Admin Products Page - Mobile Card View */
+  .admin-table thead {
+    display: none;
+  }
+
+  .admin-table table {
+    min-width: auto;
+    display: block;
+  }
+
+  .admin-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .admin-table tbody tr {
+    display: grid;
+    grid-template-columns: 50px 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 8px 12px;
+    padding: 12px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+    align-items: center;
+  }
+
+  .admin-table tbody tr:hover {
+    background: var(--bg-primary);
+  }
+
+  .admin-table tbody td:nth-child(1) {
+    grid-row: span 2;
+  }
+
+  .admin-table tbody td:nth-child(2) {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .admin-table tbody td:nth-child(3) {
+    display: none;
+  }
+
+  .admin-table tbody td:nth-child(4) {
+    grid-column: 2;
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 600;
+  }
+
+  .admin-table tbody td:nth-child(5),
+  .admin-table tbody td:nth-child(6) {
+    display: none;
+  }
+
+  .admin-table tbody td:nth-child(7) {
+    grid-column: 3;
+    grid-row: span 2;
+    justify-self: end;
+  }
+
+  /* Modal Form - Mobile */
+  .form-row {
+    flex-direction: column !important;
+    gap: 0 !important;
+  }
 }
 
 .mobile-sidebar-overlay {
